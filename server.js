@@ -31,13 +31,17 @@ app.get("/app/users", (req, res) => {
 });
 
 // READ a single user (HTTP method GET) at endpoint /app/user/:id
-
+app.get("/app/user/:id", (req, res) => {	
+	req.params.id(1);
+	const stmt = db.prepare("SELECT * FROM userinfo").get();
+	res.status(200).json(stmt);
+});
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 
 // Default response for any other request
 app.use(function(req, res){
-	res.json({"message":"Endpoint not found. (404)"});
+	res.json({"message":"Your API is working!"});
     res.status(404);
 });
