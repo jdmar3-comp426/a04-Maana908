@@ -37,11 +37,14 @@ app.get("/app/user/:id", (req, res) => {
 });
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 app.patch("/app/update/user/:id", (req, res) => {	
-	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?,user), pass = COALESCE(?,pass) WHERE id = ?").run(req.params.id);
+	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?,user), pass = COALESCE(?,pass) WHERE id = ?").run(req.body.user, req.body.pass, req.params.id);
 	res.status(200).json(stmt);
 });
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
-
+app.get("/app/delete/user/:id", (req, res) => {	w
+	const stmt = db.prepare("DELETE user FROM userinfo where id = ?").run(req.body.user, req.params.id);
+	res.status(200).json(stmt);
+});
 // Default response for any other request
 app.use(function(req, res){
 	res.json({"message":"Your API is working!"});
