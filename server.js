@@ -25,7 +25,7 @@ app.get("/app/", (req, res, next) => {
 // CREATE a new user (HTTP method POST) at endpoint /app/new/
 app.post("/app/new/user", (req,res,next) => {	
 	const stmt = db.prepare("INSERT INTO userinfo (user, pass) VALUES (?, ?)").run(req.body.user, md5(req.body.pass));
-	res.json({"message":stmt.changes + " record created: ID " + req.params.id + " (201)"});
+	res.json({"message":stmt.changes + " record created: ID " + stmt.lastInsertRowid + " (201)"});
 	res.status(201);
 });
 // READ a list of all users (HTTP method GET) at endpoint /app/users/
@@ -48,7 +48,7 @@ app.patch("/app/update/user/:id", (req, res) => {
 	res.status(200);
 });
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
-app.get("/app/delete/user/:id", (req, res) => {	
+app.delete("/app/delete/user/:id", (req, res) => {	
 	const stmt = db.prepare("DELETE FROM userinfo where id = ?").run(req.params.id);
 	res.json({"message":stmt.changes + " record deleted: ID " + req.params.id + " (200)"});
 	res.status(200);
