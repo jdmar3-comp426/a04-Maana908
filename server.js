@@ -13,7 +13,7 @@ app.use(express.json());
 const HTTP_PORT = 5000;
 // Start server
 app.listen(HTTP_PORT, () => {
-    //console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
+    console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 // READ (HTTP method GET) at root endpoint /app/
 app.get("/app/", (req, res, next) => {
@@ -50,11 +50,11 @@ app.patch("/app/update/user/:id", (req, res) => {
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 app.get("/app/delete/user/:id", (req, res) => {	
 	const stmt = db.prepare("DELETE FROM userinfo where id = ?").run(req.params.id);
-	res.json("message" + ":" + "1 record deleted: ID " + req.params.id + " (200)");
+	res.json({"message":"1 record deleted: ID " + req.params.id + " (200)"});
 	res.status(200);
 });
 // Default response for any other request
 app.use(function(req, res){
-	//res.json({"message":"Your API is working!"});
+	res.json({"message":"Your API is working!"});
     res.status(404);
 });
